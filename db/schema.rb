@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2021_12_10_154133) do
   enable_extension "plpgsql"
 
   create_table "mentorees", force: :cascade do |t|
-    t.string "github_url"
+    t.string "github_username"
     t.string "avatar_url"
     t.string "name"
     t.string "location"

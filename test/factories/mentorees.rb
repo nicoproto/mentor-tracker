@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :mentoree do
-    github_url { "MyString" }
+    github_username { "MyString" }
     avatar_url { "MyString" }
     name { "MyString" }
     location { "MyString" }

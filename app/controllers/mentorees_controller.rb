@@ -1,6 +1,7 @@
 class MentoreesController < ApplicationController
   def new
     @mentoree = Mentoree.new
+    authorize @mentoree
   end
 
   def create
@@ -17,6 +18,6 @@ class MentoreesController < ApplicationController
   private
 
   def mentoree_params
-    params.require(:mentoree).permit(:github_url)
+    params.require(:mentoree).permit(:github_username)
   end
 end

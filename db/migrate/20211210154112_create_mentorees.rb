@@ -1,7 +1,7 @@
 class CreateMentorees < ActiveRecord::Migration[6.1]
   def change
     create_table :mentorees do |t|
-      t.string :github_url
+      t.string :github_username
       t.string :avatar_url
       t.string :name
       t.string :location
