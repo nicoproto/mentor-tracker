@@ -10,10 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_10_153412) do
+ActiveRecord::Schema.define(version: 2021_12_10_154133) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "mentorees", force: :cascade do |t|
+    t.string "github_url"
+    t.string "avatar_url"
+    t.string "name"
+    t.string "location"
+    t.string "email"
+    t.boolean "hireable"
+    t.integer "public_repos"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "user_mentorees", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "mentoree_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["mentoree_id"], name: "index_user_mentorees_on_mentoree_id"
+    t.index ["user_id"], name: "index_user_mentorees_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -27,4 +48,6 @@ ActiveRecord::Schema.define(version: 2021_12_10_153412) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "user_mentorees", "mentorees"
+  add_foreign_key "user_mentorees", "users"
 end
