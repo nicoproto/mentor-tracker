@@ -8,4 +8,8 @@ class MentoreePolicy < ApplicationPolicy
   def create?
     user.present?
   end
+
+  def show?
+    user.present?
+  end
 end

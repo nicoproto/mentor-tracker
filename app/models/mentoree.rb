@@ -3,7 +3,8 @@ require 'open-uri'
 require 'pry'
 
 class Mentoree < ApplicationRecord
-  after_create :fetch_github_data
+  has_many :user_mentorees, dependent: :destroy
+  before_create :fetch_github_data
 
   # TODO: Move this logic to a service
   def fetch_github_data

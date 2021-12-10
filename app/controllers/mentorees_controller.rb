@@ -6,13 +6,19 @@ class MentoreesController < ApplicationController
 
   def create
     @mentoree = Mentoree.new(mentoree_params)
+    authorize @mentoree
 
     if @mentoree.save
       UserMentoree.create(user: current_user, mentoree: @mentoree)
-      redirect_to @mentoree
+      redirect_to mentoree_path(@mentoree)
     else
       render :new
     end
+  end
+
+  def show
+    @mentoree = Mentoree.find(params[:id])
+    authorize @mentoree
   end
 
   private
