@@ -1,5 +1,6 @@
 require 'json'
 require 'open-uri'
+require 'nokogiri'
 
 class Mentoree < ApplicationRecord
   has_many :user_mentorees, dependent: :destroy
@@ -18,6 +19,16 @@ class Mentoree < ApplicationRecord
     self.email = user_data['email']
     self.hireable = user_data['hireable']
     self.public_repos = user_data['public_repos']
+
+
+    # Scrapping contributions from user
+    url = "https://github.com/#{self.github_username}"
+
+    html_file = URI.open(url).read
+    html_doc = Nokogiri::HTML(html_file)
+
+    self.year_contributions = html_doc.search('.js-yearly-contributions .f4.text-normal').first.text.strip.gsub(/[^\d]/, '')
+
     self.last_fetch = DateTime.now
   end
 
@@ -32,7 +43,7 @@ class Mentoree < ApplicationRecord
   end
 
   def fetch_github_events
-    # TODO: Move this logic to a service
+    # TODO: Move this logic to a service and potentially serialize in a new attribute on Mentoree
     github_url = "https://api.github.com/users/#{self.github_username}/events?per_page=100"
     github_serialized_data = URI.open(github_url).read
     user_data = JSON.parse(github_serialized_data)

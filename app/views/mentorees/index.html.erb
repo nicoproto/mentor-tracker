@@ -5,6 +5,7 @@
         <h4><%= mentoree.name %></h4>
         <%= image_tag mentoree.avatar_url, width: 50 %>
         <p>Public repos: <%= mentoree.public_repos %></p>
+        <p>Last year contributions: <%= mentoree.year_contributions %></p>
       </div>
     <% end %>
   <% end %>
