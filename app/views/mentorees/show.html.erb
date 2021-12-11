@@ -1,28 +1,35 @@
-<h1><%= @mentoree.name %>'s profile</h1>
+<div class="container">
 
-<%= image_tag @mentoree.avatar_url, width: 250 %>
+  <h1><%= @mentoree.name %>'s profile</h1>
 
-<p>Github user: <%= @mentoree.github_username %></p>
-<p>Public repos: <%= @mentoree.public_repos %></p>
+  <%= image_tag @mentoree.avatar_url, width: 250 %>
 
-<h2>Last contributions</h2>
+  <p>Github user: <%= @mentoree.github_username %></p>
+  <p>Public repos: <%= @mentoree.public_repos %></p>
 
-<% @mentoree_data.each do |contribution| %>
-<div class="border">
-  <p class="fw-bold">
-    <%= contribution[:type] %> - <%= contribution[:date].strftime("%a, %d %b %Y") %>
-    on <%= contribution[:repo_name] %>
-  </p>
+  <h2>Last contributions</h2>
 
-  <% if contribution[:type] == 'PushEvent' %>
-    <p>(<%= contribution[:commits_count] %> commits)</p>
-    <p class="fw-bold">Commits done</p>
-    <ul>
-      <% contribution[:commits].each do |commit| %>
-        <li><%= commit %></li>
+  <% @mentoree_data.each do |contribution| %>
+    <div class="border p-3 col-6 mb-3">
+
+      <% if contribution[:type] == 'CreateEvent' %>
+        <p class="fw-bold m-0">
+          Created '<%= contribution[:repo_name] %>' - <%= contribution[:date].strftime("%a, %d %b %Y") %>
+        </p>
       <% end %>
-    </ul>
+
+      <% if contribution[:type] == 'PushEvent' %>
+        <p class="fw-bold">
+          <%= contribution[:type] %> - <%= contribution[:date].strftime("%a, %d %b %Y") %>
+          on <%= contribution[:repo_name] %>
+        </p>
+        <p class="fw-bold">Commits done (<%= contribution[:commits_count] %>)</p>
+        <ul class="m-0">
+          <% contribution[:commits].each do |commit| %>
+            <li> <a href="<%= commit[:url] %>"><%= commit[:message] %></a></li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
   <% end %>
 </div>
-
-<% end %>

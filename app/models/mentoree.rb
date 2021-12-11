@@ -21,16 +21,27 @@ class Mentoree < ApplicationRecord
 
   def fetch_github_events
     # TODO: Move this logic to a service
-    github_url = "https://api.github.com/users/#{self.github_username}/events"
+    github_url = "https://api.github.com/users/#{self.github_username}/events?per_page=100"
     github_serialized_data = URI.open(github_url).read
     user_data = JSON.parse(github_serialized_data)
 
     user_data.map do |data|
+      commits = if data['payload']['commits']
+        data['payload']['commits'].map do |commit|
+          {
+            message: commit['message'],
+            url: commit['url'].gsub("commits", "commit").gsub("api", "www").gsub("repos/", "").gsub("git/", "")
+          }
+        end
+      else
+        nil
+      end
+
       {
         type: data['type'],
         repo_name: data['repo']['name'],
         commits_count: data['payload']['size'],
-        commits: data['payload']['commits'] ? data['payload']['commits'].map {|commit| commit['message']} : nil,
+        commits: commits,
         date: data['created_at'].to_datetime
       }
     end
