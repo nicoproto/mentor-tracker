@@ -3,5 +3,5 @@ Rails.application.routes.draw do
   get '/kitchensink', to: 'pages#kitchensink' if Rails.env.development?
   root to: 'pages#home'
 
-  resources :mentorees, only: [:new, :create, :show]
+  resources :mentorees, only: [:new, :create, :show, :index]
 end

@@ -1,4 +1,9 @@
 class MentoreesController < ApplicationController
+
+  def index
+    @mentorees = policy_scope(Mentoree)
+  end
+
   def new
     @mentoree = Mentoree.new
     authorize @mentoree

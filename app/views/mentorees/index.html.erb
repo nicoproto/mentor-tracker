@@ -1,0 +1,9 @@
+<div class="container">
+  <% @mentorees.each do |mentoree| %>
+    <div class="border p-3 col-6 mb-3">
+      <h4><%= mentoree.name %></h4>
+      <%= image_tag mentoree.avatar_url, width: 50 %>
+      <p>Public repos: <%= mentoree.public_repos %></p>
+    </div>
+  <% end %>
+</div>
