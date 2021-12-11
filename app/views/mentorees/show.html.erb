@@ -4,3 +4,25 @@
 
 <p>Github user: <%= @mentoree.github_username %></p>
 <p>Public repos: <%= @mentoree.public_repos %></p>
+
+<h2>Last contributions</h2>
+
+<% @mentoree_data.each do |contribution| %>
+<div class="border">
+  <p class="fw-bold">
+    <%= contribution[:type] %> - <%= contribution[:date].strftime("%a, %d %b %Y") %>
+    on <%= contribution[:repo_name] %>
+  </p>
+
+  <% if contribution[:type] == 'PushEvent' %>
+    <p>(<%= contribution[:commits_count] %> commits)</p>
+    <p class="fw-bold">Commits done</p>
+    <ul>
+      <% contribution[:commits].each do |commit| %>
+        <li><%= commit %></li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>
+
+<% end %>

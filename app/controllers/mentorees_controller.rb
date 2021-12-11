@@ -18,6 +18,8 @@ class MentoreesController < ApplicationController
 
   def show
     @mentoree = Mentoree.find(params[:id])
+    @mentoree_data = @mentoree.fetch_github_events
+
     authorize @mentoree
   end
 
