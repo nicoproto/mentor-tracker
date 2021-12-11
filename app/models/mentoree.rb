@@ -17,6 +17,17 @@ class Mentoree < ApplicationRecord
     self.email = user_data['email']
     self.hireable = user_data['hireable']
     self.public_repos = user_data['public_repos']
+    self.last_fetch = DateTime.now
+  end
+
+  def try_github_update
+    if self.last_fetch.nil? || ((DateTime.now - self.last_fetch.to_datetime) * 24 * 60).to_i > 60
+      fetch_github_data
+      self.save
+      true
+    else
+      false
+    end
   end
 
   def fetch_github_events
