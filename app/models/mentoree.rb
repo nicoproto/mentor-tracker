@@ -42,6 +42,18 @@ class Mentoree < ApplicationRecord
     end
   end
 
+  def fetch_github_daily_contributions
+    html_file = URI.open('https://github.com/users/nicoproto/contributions').read
+    html_doc = Nokogiri::HTML(html_file)
+
+    html_doc.search('g [data-date]').map do |daily_cont|
+      {
+        date: daily_cont['data-date'],
+        count: daily_cont['data-count'].to_i,
+      }
+    end
+  end
+
   def fetch_github_events
     # TODO: Move this logic to a service and potentially serialize in a new attribute on Mentoree
     github_url = "https://api.github.com/users/#{self.github_username}/events?per_page=100"
