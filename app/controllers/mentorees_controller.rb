@@ -24,7 +24,7 @@ class MentoreesController < ApplicationController
   def show
     @mentoree = Mentoree.find(params[:id])
     @mentoree_data = @mentoree.fetch_github_events
-    @mentoree_daily_contributions = @mentoree.fetch_github_daily_contributions
+    @mentoree_daily_contributions = @mentoree.fetch_github_daily_contributions.select{ |cont| Date.today - cont[:date] < 31 }.reverse
     @mentoree.try_github_update
 
     authorize @mentoree

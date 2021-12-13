@@ -8,6 +8,16 @@
   <p>Public repos: <%= @mentoree.public_repos %></p>
   <p>Last year contributions: <%= @mentoree.year_contributions %></p>
 
+  <h2>Last month commits</h2>
+
+  <ul>
+    <% @mentoree_daily_contributions.each do |cont| %>
+      <li>
+        <%= cont[:date] %> - <%= cont[:count] %>
+      </li>
+    <% end %>
+  </ul>
+
   <h2>Last contributions</h2>
 
   <% @mentoree_data.each do |contribution| %>

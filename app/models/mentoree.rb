@@ -48,7 +48,7 @@ class Mentoree < ApplicationRecord
 
     html_doc.search('g [data-date]').map do |daily_cont|
       {
-        date: daily_cont['data-date'],
+        date: Date.parse(daily_cont['data-date']),
         count: daily_cont['data-count'].to_i,
       }
     end
